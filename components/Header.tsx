@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+
 import AirbnbLogoIcon from "../public/static/svg/logo/logo.svg";
 import AirbnbLogoTextIcon from "../public/static/svg/logo/logo_text.svg";
+
 import palette from "../styles/palette";
 
 const Container = styled.div`
@@ -104,7 +106,7 @@ const Header: React.FC = () => {
           <div 
             className="modal-background" 
             role="presentation"
-            onClick={() => setModalOpened(false)}
+            onClick={() => setModalOpened}
           />
           <div className="modal-contents" />
         </div>
