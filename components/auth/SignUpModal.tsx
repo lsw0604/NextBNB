@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import CloseXIcon from "../../public/static/svg/modal/modal_colose_x_icon.svg";
+import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
 import MailIcon from "../../public/static/svg/auth/mail.svg";
 import PersonIcon from "../../public/static/svg/auth/person.svg";
 import OpenedEyeIcon from "../../public/static/svg/auth/opened_eye.svg";
-// import ClosedEyeIcon from "../../public/static/svg/auth/closed_eye.svg";
-import palette from "../../styles/palette";
+import ClosedEyeIcon from "../../public/static/svg/auth/closed_eye.svg";
+import Input from "../common/input";
 
 const Container = styled.div`
   width: 568px;
@@ -23,46 +23,81 @@ const Container = styled.div`
   .input-wrapper {
     position: relative;
     margin-bottom: 16px;
-    input {
-      position: relative;
-      width: 100%;
-      height: 46px;
-      padding: 0 44px 0 11px;
-      border: 1px solid ${palette.gray_eb};
-      border-radius: 4px;
-      font-size: 16px;
-      outline: none;
-      ::placeholder {
-        color: ${palette.gray_76};
-      }
-    }
+  }
+  
+  .sign-up-password-input-wrapper {
     svg {
-      position: absolute;
-      right: 11px;
-      top: 16px;
+      cursor: pointer;
     }
   }
 `;
 
 const SignUpModal: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [password, setPassword] = useState("");
+  const [hidePassword, setHidePassword] = useState(true);
+
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  }
+  const onChangeLastName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLastName(event.target.value);
+  }
+  const onChangeFirstName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstName(event.target.value);
+  }
+  const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  }
+  const toggleHidePassword = () => {
+    setHidePassword(!hidePassword);
+  }
+
   return (
     <Container>
       <CloseXIcon className="modal-close-x-icon" />
       <div className="input-wrapper">
-        <input placeholder="email" type="email" name="email" />
-        <MailIcon />
+        <Input 
+          placeholder="email" 
+          type="email" 
+          icon={<MailIcon />} 
+          name="email"
+          value={email}
+          onChange={onChangeEmail}
+        />
       </div>
       <div className="input-wrapper">
-        <input placeholder="Last name" />
-        <PersonIcon />
+        <Input 
+          placeholder="Last name" 
+          icon={<PersonIcon />} 
+          value={lastName}
+          onChange={onChangeLastName}
+        />
       </div>
       <div className="input-wrapper">
-        <input placeholder="First name" />
-        <PersonIcon />
+        <Input 
+          placeholder="First name" 
+          icon={<PersonIcon />}
+          value={firstName}
+          onChange={onChangeFirstName}
+        />
       </div>
-      <div className="input-wrapper">
-        <input placeholder="password" type="password" />
-        <OpenedEyeIcon />
+      <div className="input-wrapper sign-up-password-input-wrapper">
+        <Input 
+          placeholder="password" 
+          type={hidePassword ? "password" : "text"}
+          icon={
+            hidePassword ? (
+              <OpenedEyeIcon onClick={toggleHidePassword} />
+            ) : (
+              <ClosedEyeIcon onClick={toggleHidePassword} />
+            )
+          } 
+          value={password}
+          onChange={onChangePassword}
+        />
       </div>
     </Container>
   ) 

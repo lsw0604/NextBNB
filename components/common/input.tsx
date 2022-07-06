@@ -30,7 +30,7 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   icon?: JSX.Element;
 };
 
-const input: React.FC<IProps> = ({ icon, ...props }) => {
+const Input: React.FC<IProps> = ({ icon, ...props }) => {
   return (
     <Container iconExist={!!icon}>
       <input {...props} />
@@ -41,4 +41,4 @@ const input: React.FC<IProps> = ({ icon, ...props }) => {
   );
 };
 
-export default input;
+export default Input;
