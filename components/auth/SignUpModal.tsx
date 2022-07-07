@@ -10,6 +10,9 @@ import { monthList, dayList, yearList } from "../../lib/staticData";
 import palette from "../../styles/palette";
 import Selector from "../common/Selector";
 import Button from "../common/Button";
+import { signupAPI } from "../../lib/api/auth";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/user";
 
 const Container = styled.div`
   width: 568px;
@@ -80,6 +83,8 @@ const SignUpModal: React.FC = () => {
   const [birthMonth, setBirthMonth] = useState<string | undefined>();
   const [birthDay, setBirthDay] = useState<string | undefined>();
 
+  const dispatch = useDispatch();
+
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -105,8 +110,31 @@ const SignUpModal: React.FC = () => {
     setBirthDay(event.target.value);
   };
 
+  const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    
+    console.log("onSubmitSignUp : start");
+
+    try {
+      const signUpBody = {
+        email,
+        lastName,
+        firstName,
+        password,
+        birthday: new Date(
+          `${birthYear}-${birthMonth!.replace("Month", "")}-${birthDay}`
+        ).toISOString(),
+      };
+      const { data } = await signupAPI(signUpBody);
+
+      dispatch(userActions.setLoggedUser(data));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <Container>
+    <Container onSubmit={onSubmitSignUp}>
       <CloseXIcon className="modal-close-x-icon" />
       <div className="input-wrapper">
         <Input 
@@ -184,7 +212,9 @@ const SignUpModal: React.FC = () => {
         </div>
       </div>
       <div className="sign-up-modal-submit-button-wrapper">
-        <Button type="submit">Sign Up</Button>
+        <Button type="submit">
+          Sign Up
+        </Button>
       </div>
     </Container>
   ) 

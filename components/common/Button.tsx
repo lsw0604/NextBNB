@@ -15,12 +15,16 @@ const Container = styled.button`
   cursor: pointer;
 `;
 
+const click = () => {
+  console.log("CLICKED");
+}
+
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 };
 
 const Button: React.FC<IProps> = ({ children, ...props }) => {
-  return <Container {...props}>{children}</Container>;
+  return <Container {...props} onClick={() => click()}>{children}</Container>;
 };
 
 export default Button;
