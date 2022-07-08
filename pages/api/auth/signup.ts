@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import Data from "../../../lib/data";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs"
 import { StoredUsedType } from "../../../types/user";
 import jwt from "jsonwebtoken";
 
@@ -43,14 +43,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const token = jwt.sign(String(newUser.id), process.env.JWT_SECRET_KEY!);
 
+    const expires = new Date(Date.now() + 60 * 60 * 24 * 3).toUTCString()
+    console.log("expires : ", expires);
     res.setHeader(
       "Set-Cookie",
-      `access_token=${token}; path=/; expires=${new Date(Date.now() + 60 * 60 * 24 * 1000 * 3)}; httponly`,
+      `access_token=${token}; path=/; expires=${expires}; httponly`,
     );
 
-    const newUserWithoutPassword: Partial<Pick<
-      StoredUsedType,
-      "password"
+    const newUserWithoutPassword: Partial<
+      Pick<StoredUsedType, "password"
     >> = newUser;
 
     delete newUserWithoutPassword.password;

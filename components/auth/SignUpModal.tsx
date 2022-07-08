@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+
 import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
 import MailIcon from "../../public/static/svg/auth/mail.svg";
 import PersonIcon from "../../public/static/svg/auth/person.svg";
 import OpenedEyeIcon from "../../public/static/svg/auth/opened_eye.svg";
 import ClosedEyeIcon from "../../public/static/svg/auth/closed_eye.svg";
+
 import Input from "../common/Input";
-import { monthList, dayList, yearList } from "../../lib/staticData";
-import palette from "../../styles/palette";
 import Selector from "../common/Selector";
 import Button from "../common/Button";
-import { signupAPI } from "../../lib/api/auth";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../store/user";
 
-const Container = styled.div`
+import palette from "../../styles/palette";
+
+import { monthList, dayList, yearList } from "../../lib/staticData";
+import { signupAPI } from "../../lib/api/auth";
+import { userActions } from "../../store/user";
+import { commonActions } from "../../store/common";
+import useValidateMode from "../../hooks/useValidateMode";
+
+const Container = styled.form`
   width: 568px;
   padding: 32px;
   height: 614px;
@@ -82,8 +88,10 @@ const SignUpModal: React.FC = () => {
   const [birthYear, setBirthYear] = useState<string | undefined>();
   const [birthMonth, setBirthMonth] = useState<string | undefined>();
   const [birthDay, setBirthDay] = useState<string | undefined>();
+  const [passwordFocused, setPasswordFocused] = useState(false);
 
   const dispatch = useDispatch();
+  const { setValidateMode } = useValidateMode();
 
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -109,11 +117,16 @@ const SignUpModal: React.FC = () => {
   const onChangeBirthDay = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setBirthDay(event.target.value);
   };
+  const onFocusPassword = () => {
+    setPasswordFocused(true);
+  }
 
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-    console.log("onSubmitSignUp : start");
+
+    setValidateMode(true);
+
+    dispatch(commonActions.setValidateMode(true));
 
     try {
       const signUpBody = {
@@ -122,7 +135,7 @@ const SignUpModal: React.FC = () => {
         firstName,
         password,
         birthday: new Date(
-          `${birthYear}-${birthMonth!.replace("Month", "")}-${birthDay}`
+          `${birthYear}-${birthMonth!.replace("월", "")}-${birthDay}`
         ).toISOString(),
       };
       const { data } = await signupAPI(signUpBody);
@@ -144,6 +157,9 @@ const SignUpModal: React.FC = () => {
           name="email"
           value={email}
           onChange={onChangeEmail}
+          useValidation
+          isValid={!!email}
+          errorMessage="need email"
         />
       </div>
       <div className="input-wrapper">
@@ -152,6 +168,9 @@ const SignUpModal: React.FC = () => {
           icon={<PersonIcon />} 
           value={lastName}
           onChange={onChangeLastName}
+          useValidation
+          isValid={!!lastName}
+          errorMessage="need lastName"
         />
       </div>
       <div className="input-wrapper">
@@ -160,6 +179,9 @@ const SignUpModal: React.FC = () => {
           icon={<PersonIcon />}
           value={firstName}
           onChange={onChangeFirstName}
+          useValidation
+          isValid={!!firstName}
+          errorMessage="need firstName"
         />
       </div>
       <div className="input-wrapper sign-up-password-input-wrapper">
@@ -175,6 +197,10 @@ const SignUpModal: React.FC = () => {
           } 
           value={password}
           onChange={onChangePassword}
+          useValidation
+          isValid={!!password}
+          errorMessage="need password"
+          onFocus={onFocusPassword}
         />
       </div>
       <p className="sign-up-birthday-label">Birth Day</p>
