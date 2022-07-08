@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
@@ -19,6 +19,7 @@ import { signupAPI } from "../../lib/api/auth";
 import { userActions } from "../../store/user";
 import { commonActions } from "../../store/common";
 import useValidateMode from "../../hooks/useValidateMode";
+import PasswordWarning from "./PasswordWarning";
 
 const Container = styled.form`
   width: 568px;
@@ -79,19 +80,49 @@ const Container = styled.form`
   }
 `;
 
+const PASSWORD_MIN_LENGTH = 8;
+const disabledMonths = ["월"];
+const disabledDays = ["일"];
+const disabledYears = ["년"];
+
 const SignUpModal: React.FC = () => {
   const [email, setEmail] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
+
   const [birthYear, setBirthYear] = useState<string | undefined>();
   const [birthMonth, setBirthMonth] = useState<string | undefined>();
   const [birthDay, setBirthDay] = useState<string | undefined>();
+
   const [passwordFocused, setPasswordFocused] = useState(false);
 
   const dispatch = useDispatch();
   const { setValidateMode } = useValidateMode();
+
+  const isPasswordHasNameOrEmail = useMemo(
+    () =>
+      !password ||
+      !lastName ||
+      password.includes(lastName) ||
+      password.includes(email.split("@")[0]),
+    [password, lastName, email]
+  );
+
+  const isPasswordHasNumberOrSymbol = useMemo(
+    () =>
+      !(
+        /[{}[\]/?.,;:|)*~`!^\-_+<>@#$%&\\=('"]/g.test(password) ||
+        /[0-9]/g.test(password)
+      ),
+    [password]
+  );
+
+  const isPasswordOverMinLength = useMemo(
+    () => !!password && password.length >= PASSWORD_MIN_LENGTH,
+    [password]
+  )
 
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -119,7 +150,7 @@ const SignUpModal: React.FC = () => {
   };
   const onFocusPassword = () => {
     setPasswordFocused(true);
-  }
+  };
 
   const onSubmitSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -198,22 +229,42 @@ const SignUpModal: React.FC = () => {
           value={password}
           onChange={onChangePassword}
           useValidation
-          isValid={!!password}
+          isValid={
+            !isPasswordHasNameOrEmail &&
+            isPasswordOverMinLength &&
+            !isPasswordHasNumberOrSymbol
+          }
           errorMessage="need password"
           onFocus={onFocusPassword}
         />
       </div>
-      <p className="sign-up-birthday-label">Birth Day</p>
+      {passwordFocused && (
+        <>
+          <PasswordWarning 
+            isValid={isPasswordHasNameOrEmail}
+            text="비밀번호에 본인 이름이나 이메일 주소를 포함할 수 없습니다."
+          />
+          <PasswordWarning
+            isValid={isPasswordHasNumberOrSymbol}
+            text="숫자나 기호를 반드시 포함하세요"
+            />
+          <PasswordWarning
+            isValid={!isPasswordOverMinLength}
+            text="비밀번호는 최소 8자리로 입력하세요."
+          />
+        </>
+      )}
+      <p className="sign-up-birthday-label">생일</p>
       <p className="sign-up-modal-birthday-info">
-        Only adults 18 years of age or older can join as a member.<br />
-        Birthday is not open to other AirBNB users.
+        만 18세 이상의 성인만 회원으로 가입할 수 있습니다. <br />
+        생일은 다른 에어비앤비 이용자에게 공개되지 않습니다.
       </p>
       <div className="sign-up-modal-birthday-selectors">
         <div className="sign-up-modal-birthday-month-selector">
           <Selector 
             options={monthList}
-            disabledOptions={["Month"]}
-            defaultValue="Month"
+            disabledOptions={disabledMonths}
+            defaultValue="월"
             value={birthMonth}
             onChange={onChangeBirthMonth}
           />
@@ -221,8 +272,8 @@ const SignUpModal: React.FC = () => {
         <div className="sign-up-modal-birthday-day-selector">
           <Selector 
             options={dayList}
-            disabledOptions={["Day"]}
-            defaultValue="Day"
+            disabledOptions={disabledDays}
+            defaultValue="일"
             value={birthDay}
             onChange={onChangeBirthDay}
           />
@@ -230,8 +281,8 @@ const SignUpModal: React.FC = () => {
         <div className="sign-up-modal-birthday-year-selector">
           <Selector 
             options={yearList}
-            disabledOptions={["Year"]}
-            defaultValue="Year"
+            disabledOptions={disabledYears}
+            defaultValue="년"
             value={birthYear}
             onChange={onChangeBirthYear}
           />
