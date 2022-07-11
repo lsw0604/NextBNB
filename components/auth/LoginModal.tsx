@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
+import { userActions } from "../../store/user";
 import { loginAPI } from "../../lib/api/auth";
 
 import styled from "styled-components";
-import CloseXIcon from "../../public/static/svg/modal/modal_colose_x_icon.svg";
+import CloseXIcon from "../../public/static/svg/modal/modal_close_x_icon.svg";
 import MailIcon from "../../public/static/svg/auth/mail.svg";
-import OpenEyedIcon from "../../public/static/svg/auth/opened_eye.svg";
+import OpenedEyeIcon from "../../public/static/svg/auth/opened_eye.svg";
 import CloseEyedIcon from "../../public/static/svg/auth/closed_eye.svg";
 import palette from "../../styles/palette";
 import Button from "../common/Button";
 import Input from "../common/Input";
 
 import useValidateMode from "../../hooks/useValidateMode";
-import { userActions } from "../../store/user";
 
 const Container = styled.form`
   width: 568px;
@@ -63,16 +63,22 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
 
   const { setValidateMode } = useValidateMode();
 
+  //* 비밀번호 숨김 토글하기
   const togglePasswordHiding = () => {
     setIsPasswordHided(!isPasswordHided);
-  }
-
-  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
   };
+
+  //* 이메일 주소 변경시
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+  
+  //* 비밀번호 변경시
   const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
+
+  //* 외원가입 모달로 변경하기
   const changeToSignUpModal = () => {
     dispatch(authActions.setAuthMode("signup"));
   };
@@ -126,7 +132,7 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
             isPasswordHided ? ( 
               <CloseEyedIcon onClick={togglePasswordHiding} />
             ) : (
-              <CloseEyedIcon onClick={togglePasswordHiding} />
+              <OpenedEyeIcon onClick={togglePasswordHiding} />
             )
           }
           value={password}

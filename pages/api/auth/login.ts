@@ -31,12 +31,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         `access_token=${token}; path=/; expires=${expires}; httponly;`,
       );
 
-      const newUserWithoutPassword: Partial<Pick<
+      const userWithoutPassword: Partial<Pick<
         StoredUserType,
         "password"
       >> = user;
 
-      delete newUserWithoutPassword.password;
+      delete userWithoutPassword.password;
       res.statusCode = 200;
       return res.send(user);
     } catch (e) {

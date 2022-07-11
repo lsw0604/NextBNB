@@ -1,19 +1,25 @@
 import React from "react";
+import styled from "styled-components";
 import SignUpModal from "./SignUpModal";
+import LoginModal from "./LoginModal";
 import { useSelector, RootState } from "../../store";
 
 interface IProps {
   closeModal: () => void;
 };
 
+const Container = styled.div`
+  z-index: 11;
+`;
+
 const AuthModal: React.FC<IProps> = ({ closeModal }) => {
   const authMode = useSelector((state: RootState) => state.auth.authMode);
 
   return (
-    <div>
+    <Container>
       {authMode === "signup" && <SignUpModal closeModal={closeModal}/>}
-      {authMode === "login" && <div>Login</div>}
-    </div>
+      {authMode === "login" && <LoginModal closeModal={closeModal} />}
+    </Container>
   );
 };
 

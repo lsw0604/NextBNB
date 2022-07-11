@@ -18,7 +18,6 @@ import { monthList, dayList, yearList } from "../../lib/staticData";
 import { signupAPI } from "../../lib/api/auth";
 import { userActions } from "../../store/user";
 import { authActions } from "../../store/auth";
-import { commonActions } from "../../store/common";
 import useValidateMode from "../../hooks/useValidateMode";
 import PasswordWarning from "./PasswordWarning";
 
@@ -113,6 +112,13 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
   const dispatch = useDispatch();
   const { setValidateMode } = useValidateMode();
 
+  const toggleHidePassword = () => {
+    setHidePassword(!hidePassword);
+  };
+  const onFocusPassword = () => {
+    setPasswordFocused(true);
+  };
+
   const isPasswordHasNameOrEmail = useMemo(
     () =>
       !password ||
@@ -136,8 +142,6 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     [password]
   )
 
-
-
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -150,9 +154,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
   const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
-  const toggleHidePassword = () => {
-    setHidePassword(!hidePassword);
-  };
+
   const onChangeBirthYear = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setBirthYear(event.target.value);
   };
@@ -162,9 +164,7 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
   const onChangeBirthDay = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setBirthDay(event.target.value);
   };
-  const onFocusPassword = () => {
-    setPasswordFocused(true);
-  };
+
 
   const validateSignUpForm = () => {
     if (!email || !lastName || !firstName || !password) {
@@ -191,7 +191,6 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     event.preventDefault();
 
     setValidateMode(true);
-    console.log("validateSignUpForm : ", validateSignUpForm);
 
     if (validateSignUpForm()) {
       try {
