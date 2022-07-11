@@ -17,6 +17,7 @@ import { useSelector } from "../store";
 import { authActions } from "../store/auth";
 import { logoutAPI } from "../lib/api/auth";
 import { userActions } from "../store/user";
+import HeaderUserProfile from "./HeaderUserProfile";
 
 const Container = styled.div`
   position: sticky;
@@ -128,7 +129,7 @@ const Container = styled.div`
 const Header: React.FC = () => {
   const { openModal, ModalPortal, closeModal } = useModal();
   const [isUserMenuOpened, setIsUserMenuOpened] = useState(false);
-  const user = useSelector((state) => state.user);
+  const isLogged = useSelector((state) => state.user.isLogged);
   const dispatch = useDispatch();
   
   const logout = async () => {
@@ -148,39 +149,8 @@ const Header: React.FC = () => {
           <AirbnbLogoTextIcon />
         </a>
       </Link>
-      {!user.isLogged && <HeaderAuth />}
-      {user.isLogged && (
-        <OutsideClickHandler
-          onOutsideClick={() => {
-            if (isUserMenuOpened) {
-              setIsUserMenuOpened(false);
-            }
-          }}
-        >
-          <button 
-            className="header-user-profile" 
-            type="button"
-            onClick={() => setIsUserMenuOpened(!isUserMenuOpened)}
-          >
-            <HamburgerIcon />
-            <img 
-              src={user.profileImage}
-              className="header-user-profile-image"
-              alt=""
-            />
-          </button>
-          {isUserMenuOpened && (
-            <ul className="header-usermenu">
-              <li>숙소 관리</li>
-              <li>숙소 등록하기</li>
-            <div className="header-usermenu-divider" />
-              <li role="presentation" onClick={logout}>
-                로그아웃
-              </li>
-          </ul>
-          )}
-        </OutsideClickHandler>
-      )}
+      {!isLogged && <HeaderAuth />}
+      {isLogged && <HeaderUserProfile />}
       <ModalPortal>
         <AuthModal closeModal={closeModal} />
       </ModalPortal>
