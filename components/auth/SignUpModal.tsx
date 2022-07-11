@@ -17,6 +17,7 @@ import palette from "../../styles/palette";
 import { monthList, dayList, yearList } from "../../lib/staticData";
 import { signupAPI } from "../../lib/api/auth";
 import { userActions } from "../../store/user";
+import { authActions } from "../../store/auth";
 import { commonActions } from "../../store/common";
 import useValidateMode from "../../hooks/useValidateMode";
 import PasswordWarning from "./PasswordWarning";
@@ -135,6 +136,8 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
     [password]
   )
 
+
+
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -209,6 +212,10 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
         console.log(e);
       }
     }
+  };
+
+  const changeToLoginModal = () => {
+    dispatch(authActions.setAuthMode("login"));
   };
 
   return (
@@ -332,7 +339,11 @@ const SignUpModal: React.FC<IProps> = ({ closeModal }) => {
       </div>
       <p>
         이미 에어비앤비 계정이 있나요?
-        <span className="sign-up-modal-set-login" role="presentation" onClick={() => {}}>
+        <span 
+          className="sign-up-modal-set-login" 
+          role="presentation" 
+          onClick={changeToLoginModal}
+        >
           로그인
         </span>
       </p>

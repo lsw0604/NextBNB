@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from "fs";
-import { StoredUsedType } from "../../types/user";
+import { StoredUserType } from "../../types/user";
 
 const getList = () => {
   const userBuffer = readFileSync("data/user.json");
@@ -8,7 +8,7 @@ const getList = () => {
   if (!userString) {
     return [];
   }
-  const users: StoredUsedType[] = JSON.parse(userString);
+  const users: StoredUserType[] = JSON.parse(userString);
   return users;
 };
 
@@ -17,8 +17,13 @@ const exist = ({ email }: { email: string }) => {
   return users.some((user) => user.email === email);
 };
 
-const write = async (users: StoredUsedType[]) => {
+const write = async (users: StoredUserType[]) => {
   writeFileSync("data/user.json", JSON.stringify(users));
 };
 
-export default { getList, exist, write };
+const find = ({ email }: { email: string }) => {
+  const users = getList();
+  return users.find((user) => user.email === email);
+};
+
+export default { getList, exist, write, find };

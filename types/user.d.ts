@@ -1,4 +1,4 @@
-export type StoredUsedType = {
+export type StoredUserType = {
   id: number;
   email: string;
   password: string;
