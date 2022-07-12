@@ -24,7 +24,6 @@ import PasswordWarning from "./PasswordWarning";
 const Container = styled.form`
   width: 568px;
   padding: 32px;
-  height: 614px;
   background-color: white;
   z-index: 11;
 

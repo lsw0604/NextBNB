@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import { wrapper } from "../store";
 import { cookieStringToObject } from "../lib/utils";
 import { meAPI } from "../lib/api/auth";
+import { userActions } from "../store/user";
 
 const app = ({ Component, pageProps }: AppProps) => {
   return (
@@ -25,9 +26,14 @@ app.getInitialProps = async (context: AppContext) => {
   try {
     if (!isLogged && cookieObject.access_token) {
       axios.defaults.headers.common.cookie = cookieObject.access_token;
-      console.log("header_cookie : ", cookieObject);
       const { data } = await meAPI();
-      console.log("_app data : ", data);
+      console.log("cookieObject : ", cookieObject);
+      console.log("access_token : ", context.ctx.req?.headers.cookie);
+      console.log("_app_Data : ", data);
+      console.log("isLogged : ", isLogged);
+      console.log("store : ", store);
+      console.log("getState() : ", store.getState());
+      store.dispatch(userActions.setLoggedUser(data));
     }
   } catch (e) {
     console.log(e);

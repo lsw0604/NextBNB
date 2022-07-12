@@ -95,7 +95,6 @@ const LoginModal: React.FC<IProps> = ({ closeModal }) => {
         const { data } = await loginAPI(loginBody);
         dispatch(userActions.setLoggedUser(data));
         closeModal();
-        console.log("loginModal Data : ", data);
       } catch (e) {
         console.log(e);
       }

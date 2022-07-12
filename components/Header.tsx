@@ -1,22 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import OutsideClickHandler from "react-outside-click-handler";
-
 import styled from "styled-components";
 import AirbnbLogoIcon from "../public/static/svg/logo/logo.svg";
 import AirbnbLogoTextIcon from "../public/static/svg/logo/logo_text.svg";
-import HamburgerIcon from "../public/static/svg/header/hamburger.svg";
 import palette from "../styles/palette";
 
-import useModal from "../hooks/useModal";
-import AuthModal from "./auth/AuthModal";
-import HeaderAuth from "./HeaderAuth";
-
-import { useDispatch } from "react-redux";
 import { useSelector } from "../store";
-import { authActions } from "../store/auth";
-import { logoutAPI } from "../lib/api/auth";
-import { userActions } from "../store/user";
+import HeaderAuth from "./HeaderAuth";
 import HeaderUserProfile from "./HeaderUserProfile";
 
 const Container = styled.div`
@@ -127,19 +117,7 @@ const Container = styled.div`
 
 
 const Header: React.FC = () => {
-  const { openModal, ModalPortal, closeModal } = useModal();
-  const [isUserMenuOpened, setIsUserMenuOpened] = useState(false);
   const isLogged = useSelector((state) => state.user.isLogged);
-  const dispatch = useDispatch();
-  
-  const logout = async () => {
-    try {
-      await logoutAPI();
-      dispatch(userActions.initUser());
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   return (
     <Container>
@@ -151,9 +129,6 @@ const Header: React.FC = () => {
       </Link>
       {!isLogged && <HeaderAuth />}
       {isLogged && <HeaderUserProfile />}
-      <ModalPortal>
-        <AuthModal closeModal={closeModal} />
-      </ModalPortal>
     </Container>
   );
 };
