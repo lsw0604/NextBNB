@@ -107,7 +107,7 @@ interface IProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onChange?: (value: any) => void;
   options?: { label: string; value: any; description?: string }[];
   isValid?: boolean;
-  errorMessage: string;
+  errorMessage?: string;
 };
 
 const RadioGroup: React.FC<IProps> = ({

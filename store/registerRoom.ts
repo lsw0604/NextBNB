@@ -4,7 +4,7 @@ type RegisterRoomState = {
   largeBuildingType: string | null;
   buildingType: string | null;
   roomType: string | null;
-  isSetUpForGuest: string | null;
+  isSetUpForGuest: boolean | null;
 };
 
 const initialState: RegisterRoomState = {
@@ -32,6 +32,14 @@ const registerRoom = createSlice({
       state.buildingType = action.payload;
       return state;
     },
+    setRoomType(state, action: PayloadAction<"entire" | "private" | "public">) {
+      state.roomType = action.payload;
+      return state;
+    },
+    setIsSetUpForGuest(state, action: PayloadAction<boolean>) {
+      state.isSetUpForGuest = action.payload;
+      return state;
+    }
   },
 });
 
