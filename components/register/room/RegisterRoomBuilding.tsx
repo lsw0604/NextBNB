@@ -8,6 +8,8 @@ import { useSelector } from "../../../store";
 import { registerRoomActions } from "../../../store/registerRoom";
 import { useDispatch } from "react-redux";
 
+import RegisterRoomFooter from "./RegisterRoomFooter";
+
 const Container = styled.div`
   padding: 62px 30px 100px;
   h2 {
@@ -74,6 +76,7 @@ const RegisterRoomBuilding: React.FC = () => {
   const largeBuildingType = useSelector((state) => state.registerRoom.largeBuildingType);
   const buildingType = useSelector((state) => state.registerRoom.buildingType);
   const roomType = useSelector((state) => state.registerRoom.roomType);
+  const isSetForGuest = useSelector((state) => state.registerRoom.isSetUpForGuest);
 
   const dispatch = useDispatch();
 
@@ -185,13 +188,18 @@ const RegisterRoomBuilding: React.FC = () => {
           <div className="register-room-is-setup-for-guest-radio">
             <RadioGroup 
               label="게스트만 사용하도록 만들어진 숙소인가요?"
-              value={undefined}
+              value={isSetForGuest}
               onChange={onChangeIsSetUpForGuest}
               options={isSetUpForGuestOptions}
             />
           </div>
         </div>
       )}
+      <RegisterRoomFooter
+        isValid={false}
+        prevHref="/"
+        nextHref="/room/register/bedroom"
+      />
     </Container>
   );
 };
