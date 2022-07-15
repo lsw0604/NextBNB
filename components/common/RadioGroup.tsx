@@ -133,9 +133,7 @@ const RadioGroup: React.FC<IProps> = ({
             />
             <span>
               {option.label}
-              <span className="radio-description">
-                {option.description}
-              </span>
+              <span className="radio-description">{option.description}</span>
             </span>
           </label>
         ))}

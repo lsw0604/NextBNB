@@ -147,6 +147,13 @@ const RegisterRoomBuilding: React.FC = () => {
     }
   }, [largeBuildingType]);
 
+  const isValid = useMemo(() => {
+    if (!largeBuildingType || !buildingType || !roomType) {
+      return false;
+    }
+    return true;
+  }, [largeBuildingType, buildingType, roomType]);
+
   return (
     <Container>
       <h2>등록할 숙소 종류는 무엇인가요?</h2>
@@ -191,12 +198,13 @@ const RegisterRoomBuilding: React.FC = () => {
               value={isSetForGuest}
               onChange={onChangeIsSetUpForGuest}
               options={isSetUpForGuestOptions}
+              isValid={isSetForGuest !== null}
             />
           </div>
         </div>
       )}
       <RegisterRoomFooter
-        isValid={false}
+        isValid={isValid}
         prevHref="/"
         nextHref="/room/register/bedroom"
       />
