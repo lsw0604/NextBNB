@@ -29,6 +29,10 @@ const registerRoom = createSlice({
   name: "registerRoom",
   initialState,
   reducers: {
+    setMaximumGuestCount(state, action: PayloadAction<number>) {
+      state.maximumGuestCount = action.payload;
+      return state;
+    },
     setLargeBuildingType(state, action: PayloadAction<string>) {
       if (action.payload === "") {
         state.largeBuildingType = null;
