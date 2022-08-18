@@ -1,11 +1,14 @@
 import React, { useMemo, useState } from "react";
 import styled from "styled-components";
-import { bedTypes } from "../../../lib/staticData";
 import palette from "../../../styles/palette";
+
+import { bedTypes } from "../../../lib/staticData";
 import { BedType } from "../../../types/room";
+
 import Button from "../../common/Button";
 import Selector from "../../common/Selector";
 import Counter from "../../common/Counter";
+
 import { useDispatch } from "react-redux";
 import { registerRoomActions } from "../../../store/registerRoom";
 
@@ -20,13 +23,13 @@ const Container = styled.li`
   .register-room-bed-type-top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
   }
   .register-room-bed-type-bedroom {
     font-size: 19px;
     color: ${palette.gray_48};
   }
   .register-room-bed-type-selector-wrapper {
+    margin-top: 28px;
     width: 320px;
   }
   .register-room-bed-type-counters {
@@ -40,6 +43,8 @@ const Container = styled.li`
   .register-room-bed-type-bedroom-counts {
     font-size: 19px;
     color: ${palette.gray_76};
+    max-width: 240px;
+    word-break: keep-all;
   }
 `;
 
@@ -101,7 +106,7 @@ const RegisterRoomBedTypes: React.FC<IProps> = ({ bedroom }) => {
              {bedsText}
           </p>
         </div>
-        <Button onClick={toggleOpened} styleType="register" color="white">
+        <Button onClick={toggleOpened} width="161px">
           {opened && "완료"}
           {!opened && (totalBedsCount === 0 ? "침대 추가하기" : "침대 수정하기")}
         </Button>

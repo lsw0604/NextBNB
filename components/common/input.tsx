@@ -12,8 +12,8 @@ type InputContainerProps = {
 const Container = styled.div<InputContainerProps>`
   label {
     span {
-      display: flex;
-      margin-top: 8px;
+      display: block;
+      margin-bottom: 8px;
     }
   }
   input {

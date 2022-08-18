@@ -4,7 +4,7 @@ import palette from "../../../styles/palette";
 import Selector from "../../common/Selector";
 import RadioGroup from "../../common/RadioGroup";
 import { largeBuildingTypeList } from "../../../lib/staticData";
-import { useSelector } from "../../../store";
+import { useSelector } from "../../../store"
 import { registerRoomActions } from "../../../store/registerRoom";
 import { useDispatch } from "react-redux";
 
@@ -18,6 +18,7 @@ const Container = styled.div`
     margin-bottom: 56px;
   }
   h3 {
+    font-size: 19px;
     font-weight: bold;
     color: ${palette.gray_76};
     margin-bottom: 6px;
@@ -96,12 +97,8 @@ const RegisterRoomBuilding: React.FC = () => {
   const detailBuildingOptions = useMemo(() => {
     switch (largeBuildingType) {
       case "아파트": {
-        const {
-          apartmentBuildingTypeList,
-        } = require("../../../lib/staticData");
-        dispatch(
-          registerRoomActions.setBuildingType(apartmentBuildingTypeList[0])
-        );
+        const { apartmentBuildingTypeList } = require("../../../lib/staticData");
+        dispatch(registerRoomActions.setBuildingType(apartmentBuildingTypeList[0]));
         return apartmentBuildingTypeList;
       }
       case "주택": {
@@ -110,21 +107,13 @@ const RegisterRoomBuilding: React.FC = () => {
         return houseBuildingTypeList;
       }
       case "별채": {
-        const {
-          secondaryUnitBuildingTypeList,
-        } = require("../../../lib/staticData");
-        dispatch(
-          registerRoomActions.setBuildingType(secondaryUnitBuildingTypeList[0])
-        );
+        const { secondaryUnitBuildingTypeList } = require("../../../lib/staticData");
+        dispatch(registerRoomActions.setBuildingType(secondaryUnitBuildingTypeList[0]));
         return secondaryUnitBuildingTypeList;
       }
       case "독특한 숙소": {
-        const {
-          uniqueSpaceBuildingTypeList,
-        } = require("../../../lib/staticData");
-        dispatch(
-          registerRoomActions.setBuildingType(uniqueSpaceBuildingTypeList[0])
-        );
+        const { uniqueSpaceBuildingTypeList } = require("../../../lib/staticData");
+        dispatch(registerRoomActions.setBuildingType(uniqueSpaceBuildingTypeList[0]));
         return uniqueSpaceBuildingTypeList;
       }
       case "B&B": {
@@ -133,12 +122,8 @@ const RegisterRoomBuilding: React.FC = () => {
         return bnbBuildingTypeList;
       }
       case "부티크호텔": {
-        const {
-          boutiquesHotelBuildingTypeList,
-        } = require("../../../lib/staticData");
-        dispatch(
-          registerRoomActions.setBuildingType(boutiquesHotelBuildingTypeList[0])
-        );
+        const { boutiquesHotelBuildingTypeList } = require("../../../lib/staticData");
+        dispatch(registerRoomActions.setBuildingType(boutiquesHotelBuildingTypeList[0]));
         return boutiquesHotelBuildingTypeList;
       }
       default:
@@ -147,11 +132,11 @@ const RegisterRoomBuilding: React.FC = () => {
   }, [largeBuildingType]);
 
   const isValid = useMemo(() => {
-    if (!largeBuildingType || !buildingType || !roomType) {
+    if (!largeBuildingType || !buildingType || !roomType || isSetForGuest === null) {
       return false;
     }
     return true;
-  }, [largeBuildingType, buildingType, roomType]);
+  }, [largeBuildingType, buildingType, roomType, isSetForGuest]);
 
   return (
     <Container>

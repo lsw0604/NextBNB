@@ -1,3 +1,4 @@
+import { defaultConfig } from "next/dist/server/config-shared";
 import React from "react";
 import styled, { css } from "styled-components";
 import palette from "../../styles/palette";
@@ -39,37 +40,27 @@ const getButtonColor = (color: string, colorReverse: boolean) => {
   }
 };
 
+const getButtonSize = (size: "small" | "medium") => {
+  switch (size) {
+    case "medium":
+      return css`
+        height: 48px;
+      `;
+    case "small":
+      return css`
+        font-size: 14px;
+        height: 36px;
+      `;
+    default:
+      return "";
+  }
+}
+
 interface StyledButtonProps {
   width: string | undefined;
   colorReverse: boolean;
+  size: "small" | "medium";
 }
-
-const normalButtonStyle = css`
-  width: 100%;
-  height: 48px;
-  padding: 0 15px;
-  border: 0;
-  border-radius: 4px;
-  color: white;
-  background-color: ${palette.bittersweet};
-  font-size: 16px;
-  font-weight: 800;
-  outline: none;
-  cursor: pointer;
-`;
-
-const registerButtonStyle = css`
-  width: 161px;
-  height: 45px;
-  border: 1px solid ${palette.gray_c4};
-  background-color: white;
-  border-radius: 4px;
-  color: ${palette.gray_48};
-  font-size: 18px;
-  font-weight: 700;
-  outline: none;
-  cursor: pointer;
-`;
 
 const Container = styled.button<StyledButtonProps>`
   display: flex;
@@ -86,6 +77,7 @@ const Container = styled.button<StyledButtonProps>`
   cursor: pointer;
   width: ${(props) => props.width};
   ${(props) => getButtonColor(props.color || "", props.colorReverse)};
+  ${(props) => getButtonSize(props.size)}
   svg {
     margin-right: 12px;
   }
@@ -93,7 +85,8 @@ const Container = styled.button<StyledButtonProps>`
 
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  color?: "dark_cyan" | "white";
+  color?: "dark_cyan" | "white" | "bittersweet";
+  size?: "small" | "medium";
   width?: string;
   colorReverse?: boolean;
   icon?: JSX.Element;
@@ -102,6 +95,7 @@ interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: React.FC<IProps> = ({ 
   children,
   color,
+  size = "medium",
   width,
   colorReverse = false,
   icon,
@@ -111,6 +105,7 @@ const Button: React.FC<IProps> = ({
     <Container 
       {...props} 
       color={color}
+      size={size}
       width={width}
       colorReverse={colorReverse}
     >

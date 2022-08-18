@@ -8,12 +8,10 @@ import { registerRoomActions } from "../../../store/registerRoom";
 
 import Counter from "../../common/Counter";
 import Selector from "../../common/Selector";
-import Button from "../../common/Button";
 
 import { getNumber } from "../../../lib/utils";
 import { bedroomCountList } from "../../../lib/staticData";
 
-import RegisterRoomBedTypes from "./RegisterRoomBedTypes";
 import RegisterRoomBedList from "./RegisterRoomBedList";
 import RegisterRoomFooter from "./RegisterRoomFooter";
 
@@ -25,8 +23,13 @@ const Container = styled.div`
     margin-bottom: 56px;
   }
   h3 {
+    font-size: 19px;
     font-weight: bold;
     color: ${palette.gray_76};
+    margin-bottom: 6px;
+  }
+  h4 {
+    font-size: 24px;
     margin-bottom: 6px;
   }
   .register-room-step-info {
@@ -37,7 +40,6 @@ const Container = styled.div`
   }
   .register-room-maximum-guest-count-wrapper {
     width: 320px;
-    margin-top: 24px;
     margin-bottom: 32px;
   }
   .register-room-bedroom-count-wrapper {
@@ -46,7 +48,12 @@ const Container = styled.div`
   }
   .register-room-bed-count-wrapper {
     width: 320px;
-    margin-bottom: 57px;
+    margin-bottom: 50px;
+  }
+  .register-room-bed-count-label {
+    color: #767676;
+    font-weight: 600;
+    margin-bottom: 8px;
   }
   .register-room-bed-type-info {
     margin-top: 6px;
@@ -64,18 +71,6 @@ const Container = styled.div`
     &:last-child {
       border-bottom: 1px solid ${palette.gray_dd};
     }
-  }
-  .register-room-bed-type-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .register-room-bed-type-bedroom-texts {
-    margin-bottom: 28px;
-  }
-  .register-room-bed-type-bedroom {
-    font-size: 19px;
-    color: ${palette.gray_48};
   }
 `;
 
@@ -130,6 +125,9 @@ const RegisterRoomBedrooms: React.FC = () => {
         />
       </div>
       <div className="register-room-bed-count-wrapper">
+        <p className="register-room-bed-count-label">
+          게스트가 사용할 수 있는 침대는 몇 개인가요?
+        </p>
         <Counter 
           label="침대" 
           value={bedCount}
@@ -145,6 +143,7 @@ const RegisterRoomBedrooms: React.FC = () => {
       <RegisterRoomFooter 
         prevHref="/room/register/building"
         nextHref="/room/register/bathroom"
+        isValid={!!bedroomCount}
       />
     </Container>
   );
