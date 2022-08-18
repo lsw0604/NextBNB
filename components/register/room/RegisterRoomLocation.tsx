@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import palette from "../../../styles/palette";
 import NavigationIcon from "../../../public/static/svg/register/navigation.svg";
 import Button from "../../common/Button";
 import Selector from "../../common/Selector";
 import Input from "../../common/Input";
+import RegisterRoomFooter from "./RegisterRoomFooter";
 import { getLocationInfoAPI } from "../../../lib/api/map";
 import { countryList } from "../../../lib/staticData";
 import { useDispatch } from "react-redux";
@@ -67,6 +68,8 @@ const RegisterLocation: React.FC = () => {
 
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
+
   const onChangeCounty = (event: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(registerRoomActions.setCountry(event.target.value));
   };
@@ -88,18 +91,25 @@ const RegisterLocation: React.FC = () => {
 
   const onSuccessGetLocation = async({ coords }: { coords: Coordinates }) => {
     try {
-      const { data } = await getLocationInfoAPI({
+      const { data: currentLocation } = await getLocationInfoAPI({
         latitude: coords.latitude,
         longitude: coords.longitude,
       });
-      console.log("onSuccessGetLocation : ", data);
+      dispatch(registerRoomActions.setCountry(currentLocation.country));
+      dispatch(registerRoomActions.setCity(currentLocation.city));
+      dispatch(registerRoomActions.setDistrict(currentLocation.district));
+      dispatch(registerRoomActions.setStreetAddress(currentLocation.streetAddress));
+      dispatch(registerRoomActions.setPostcode(currentLocation.postcode));
+      dispatch(registerRoomActions.setLatitude(currentLocation.latitude));
+      dispatch(registerRoomActions.setLongitude(currentLocation.longitude));
     } catch (e) {
       console.log("onSuccessGetLocationERROR : ", e);
-      alert(e?.message);
     }
+    setLoading(false);
   };
 
   const onClickGetCurrentLocation = () => {
+    setLoading(true);
     navigator.geolocation.getCurrentPosition(onSuccessGetLocation, (e) => {
       console.log(e);
       alert(e?.message);
@@ -121,7 +131,7 @@ const RegisterLocation: React.FC = () => {
           icon={<NavigationIcon />}
           onClick={onClickGetCurrentLocation}
         >
-          현재 위치 사용
+          {loading ? "불러오는 중..." : "현재 위치 사용"}
         </Button>
       </div>
       <div className="register-room-location-country-selector-wrapper">
@@ -148,6 +158,10 @@ const RegisterLocation: React.FC = () => {
       <div className="register-room-location-postcode">
         <Input label="우편 번호" value={postcode} onChange={onChangePostcode} />
       </div>
+      <RegisterRoomFooter 
+        prevHref="/room/register/bathroom"
+        nextHref="/room/register/geometry"
+      />
     </Container>
   );
 };
