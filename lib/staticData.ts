@@ -393,7 +393,7 @@ export const countryList = [
 ];
 
 //* 편의 시설
-export const amentityList = [
+export const amenityList = [
   "무선 인터넷",
   "TV",
   "난방",
@@ -409,7 +409,7 @@ export const amentityList = [
 ];
 
 //* 편의 공간
-export const convinienceList = [
+export const convenienceList = [
   "주방",
   "세탁 공간 - 세탁기",
   "주차",

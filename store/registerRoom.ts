@@ -21,7 +21,9 @@ type RegisterRoomState = {
   postcode: string;
   latitude: number;
   longitude: number;
-  amentities: string[];
+  amenities: string[];
+  conveniences: string[];
+  photos: string[];
 };
 
 const initialState: RegisterRoomState = {
@@ -44,44 +46,46 @@ const initialState: RegisterRoomState = {
   postcode: "",
   latitude: 0,
   longitude: 0,
-  amentities: [],
+  amenities: [],
+  conveniences: [],
+  photos: [],
 };
 
 const registerRoom = createSlice({
   name: "registerRoom",
   initialState,
   reducers: {
-    setMaximumGuestCount(state, action: PayloadAction<number>) {
+    setMaximumGuestCount(state: any, action: PayloadAction<number>) {
       state.maximumGuestCount = action.payload;
       return state;
     },
-    setLargeBuildingType(state, action: PayloadAction<string>) {
+    setLargeBuildingType(state: any, action: PayloadAction<string>) {
       if (action.payload === "") {
         state.largeBuildingType = null;
       }
       state.largeBuildingType = action.payload;
       return state;
     },
-    setBuildingType(state, action: PayloadAction<string>) {
+    setBuildingType(state: any, action: PayloadAction<string>) {
       if (action.payload === "") {
         state.buildingType = null;
       }
       state.buildingType = action.payload;
       return state;
     },
-    setRoomType(state, action: PayloadAction<"entire" | "private" | "public">) {
+    setRoomType(state: any, action: PayloadAction<"entire" | "private" | "public">) {
       state.roomType = action.payload;
       return state;
     },
-    setIsSetUpForGuest(state, action: PayloadAction<boolean>) {
+    setIsSetUpForGuest(state: any, action: PayloadAction<boolean>) {
       state.isSetUpForGuest = action.payload;
       return state;
     },
-    setBedCount(state, action: PayloadAction<number>) {
+    setBedCount(state: any, action: PayloadAction<number>) {
       state.bedCount = action.payload;
       return state;
     },
-    setBedroomCount(state, action: PayloadAction<number>) {
+    setBedroomCount(state: any, action: PayloadAction<number>) {
       const bedroomCount = action.payload;
       let { bedList } = state;
 
@@ -100,13 +104,13 @@ const registerRoom = createSlice({
       return state;
     },
     setBedTypeCount(
-      state, 
+      state: any, 
       action: PayloadAction<{ bedroomId: number; type: BedType; count: number; }>
     ) {
       const { bedroomId, type, count } = action.payload;
       const bedroom = state.bedList[bedroomId - 1];
       const prevBeds = bedroom.beds;
-      const index = prevBeds.findIndex((bed) => bed.type === type);
+      const index = prevBeds.findIndex((bed: any) => bed.type === type);
 
       if (index === -1) {
         state.bedList[bedroomId - 1].beds = [...prevBeds, { type, count }];
@@ -121,12 +125,12 @@ const registerRoom = createSlice({
       return state;
     },
     setPublicBedTypeCount(
-      state,
+      state: any,
       action: PayloadAction<{ type: BedType; count: number; }>
     ) {
       const { type, count } = action.payload;
 
-      const index = state.publicBedList.findIndex((bed) => bed.type === type);
+      const index = state.publicBedList.findIndex((bed: any) => bed.type === type);
 
       if (index === -1) {
         state.publicBedList = [...state.publicBedList, { type, count}];
@@ -140,38 +144,44 @@ const registerRoom = createSlice({
       }
       return state;
     },
-    setBathroomCount(state, action: PayloadAction<number>) {
+    setBathroomCount(state: any, action: PayloadAction<number>) {
       state.bathroomCount = action.payload;
     },
-    setBathroomType(state, action: PayloadAction<"private" | "public">) {
+    setBathroomType(state: any, action: PayloadAction<"private" | "public">) {
       state.bathroomType = action.payload;
     },
-    setCountry(state, action: PayloadAction<string>) {
+    setCountry(state: any, action: PayloadAction<string>) {
       state.country = action.payload;
     },
-    setCity(state, action: PayloadAction<string>) {
+    setCity(state: any, action: PayloadAction<string>) {
       state.city = action.payload;
     },
-    setDistrict(state, action: PayloadAction<string>) {
+    setDistrict(state: any, action: PayloadAction<string>) {
       state.district = action.payload;
     },
-    setStreetAddress(state, action: PayloadAction<string>) {
+    setStreetAddress(state: any, action: PayloadAction<string>) {
       state.streetAddress = action.payload;
     },
-    setDetailAddress(state, action: PayloadAction<string>) {
+    setDetailAddress(state: any, action: PayloadAction<string>) {
       state.detailAddress = action.payload;
     },
-    setPostcode(state, action: PayloadAction<string>) {
+    setPostcode(state: any, action: PayloadAction<string>) {
       state.postcode = action.payload;
     },
-    setLatitude(state, action: PayloadAction<number>) {
+    setLatitude(state: any, action: PayloadAction<number>) {
       state.latitude = action.payload;
     },
-    setLongitude(state, action: PayloadAction<number>) {
+    setLongitude(state: any, action: PayloadAction<number>) {
       state.longitude = action.payload;
     },
-    setAmentities(state, action: PayloadAction<string[]>) {
-      state.amentities = action.payload;
+    setAmenities(state: any, action: PayloadAction<string[]>) {
+      state.amenities = action.payload;
+    },
+    setConveniences(state: any, action: PayloadAction<string[]>) {
+      state.conveniences = action.payload;
+    },
+    setPhotos(state: any, action: PayloadAction<string[]>) {
+      state.photos = action.payload;
     }
   },
 });

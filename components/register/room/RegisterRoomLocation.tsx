@@ -89,7 +89,7 @@ const RegisterLocation: React.FC = () => {
     dispatch(registerRoomActions.setPostcode(event.target.value));
   };
 
-  const onSuccessGetLocation = async({ coords }: { coords: Coordinates }) => {
+  const onSuccessGetLocation = async({ coords }: any ) => {
     try {
       const { data: currentLocation } = await getLocationInfoAPI({
         latitude: coords.latitude,
