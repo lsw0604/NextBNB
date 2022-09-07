@@ -48,7 +48,11 @@ const initialState: RegisterRoomState = {
   longitude: 0,
   amenities: [],
   conveniences: [],
-  photos: [],
+  photos: [
+    // "https://next-bnb-practice.s3.ap-northeast-2.amazonaws.com/IMG_0006.jpg",
+    // "https://next-bnb-practice.s3.ap-northeast-2.amazonaws.com/IMG_0027.jpg",
+    // "https://next-bnb-practice.s3.ap-northeast-2.amazonaws.com/IMG_0203.JPG",
+  ],
 };
 
 const registerRoom = createSlice({
