@@ -25,6 +25,8 @@ type RegisterRoomState = {
   conveniences: string[];
   photos: string[];
   description: string;
+  title: string;
+  price: number;
 };
 
 const initialState: RegisterRoomState = {
@@ -55,6 +57,8 @@ const initialState: RegisterRoomState = {
     // "https://next-bnb-practice.s3.ap-northeast-2.amazonaws.com/IMG_0203.JPG",
   ],
   description: "",
+  title: "",
+  price: 0,
 };
 
 const registerRoom = createSlice({
@@ -192,6 +196,12 @@ const registerRoom = createSlice({
     setDescription(state: any, action: PayloadAction<string>) {
       state.description = action.payload;
     },
+    setTitle(state: any, action: PayloadAction<string>) {
+      state.title = action.payload;
+    },
+    setPrice(state: any, action: PayloadAction<number>) {
+      state.price = action.payload;
+    }
   },
 });
 
