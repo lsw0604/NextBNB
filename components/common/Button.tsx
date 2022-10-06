@@ -1,4 +1,3 @@
-import { defaultConfig } from "next/dist/server/config-shared";
 import React from "react";
 import styled, { css } from "styled-components";
 import palette from "../../styles/palette";
@@ -29,6 +28,11 @@ const getButtonColor = (color: string, colorReverse: boolean) => {
     case "bittersweet":
       return css`
         background-color: ${palette.bittersweet};
+        color: white;
+      `;
+    case "amaranth":
+      return css`
+        background-color: ${palette.amaranth};
         color: white;
       `;
     default:
@@ -85,7 +89,7 @@ const Container = styled.button<StyledButtonProps>`
 
 interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  color?: "dark_cyan" | "white" | "bittersweet";
+  color?: "dark_cyan" | "white" | "bittersweet" | "amaranth";
   size?: "small" | "medium";
   width?: string;
   colorReverse?: boolean;
