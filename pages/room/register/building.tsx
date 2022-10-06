@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import RegisterRoomBuilding from "../../../components/register/room/RegisterRoomBuilding";
+import RegisterRoomBuilding from "../../../components/room/register/RegisterRoomBuilding";
 
 const building: NextPage = () => {
   return <RegisterRoomBuilding />;

@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import RegisterRoomTitle from "../../../components/register/room/RegisterRoomTitle";
+import RegisterRoomTitle from "../../../components/room/register/RegisterRoomTitle";
 
 const title: NextPage = () => {
   return <RegisterRoomTitle />;

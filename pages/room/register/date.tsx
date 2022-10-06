@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import RegisterRoomDate from "../../../components/register/room/RegisterRoomDate";
+import RegisterRoomDate from "../../../components/room/register/RegisterRoomDate";
 
 const date: NextPage = () => {
   return <RegisterRoomDate />;

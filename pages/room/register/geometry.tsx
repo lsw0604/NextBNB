@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import React from "react";
 
 const RegisterRoomGeometry = dynamic(
-  import("../../../components/register/room/RegisterRoomGeometry"),
+  import("../../../components/room/register/RegisterRoomGeometry"),
   { ssr: false }
 );
 
